@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Everything Generator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 3em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            margin-bottom: 10px;
+            animation: fadeInDown 0.8s ease;
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .card-title {
+            font-size: 1.5em;
+            color: #667eea;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .icon {
+            font-size: 1.3em;
+        }
+
+        .result {
+            background: #f7f7f7;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #764ba2;
+            text-align: center;
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        .color-box {
+            width: 100%;
+            height: 100px;
+            border-radius: 10px;
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5em;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .quote-text {
+            font-style: italic;
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+
+        .quote-author {
+            text-align: right;
+            margin-top: 10px;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .advice-text {
+            font-size: 1.1em;
+            line-height: 1.5;
+        }
+
+        .number-display {
+            font-size: 3em;
+            color: #764ba2;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+            
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎲 Random Everything Generator 🎲</h1>
+            <p class="subtitle">Click the buttons to generate random content!</p>
+        </header>
+
+        <div class="grid">
+            <!-- Random Number Generator -->
+            <div class="card">
+                <div class="card-title">
+                    <span class="icon">🔢</span>
+                    Random Number
+                </div>
+                <div class="result">
+                    <span id="numberResult" class="number-display">?</span>
+                </div>
+                <button onclick="generateNumber()">Generate Number (1-100)</button>
+            </div>
+
+            <!-- Random Color Generator -->
+            <div class="card">
+                <div class="card-title">
+                    <span class="icon">🎨</span>
+                    Random Color
+                </div>
+                <div id="colorBox" class="color-box" style="background: #667eea;">
+                    #667eea
+                </div>
+                <button onclick="generateColor()">Generate Color</button>
+            </div>
+
+            <!-- Random Quote Generator -->
+            <div class="card">
+                <div class="card-title">
+                    <span class="icon">💭</span>
+                    Random Quote
+                </div>
+                <div class="result">
+                    <div>
+                        <div id="quoteText" class="quote-text">Click to get inspired!</div>
+                        <div id="quoteAuthor" class="quote-author"></div>
+                    </div>
+                </div>
+                <button onclick="generateQuote()">Generate Quote</button>
+            </div>
+
+            <!-- Random Advice Generator -->
+            <div class="card">
+                <div class="card-title">
+                    <span class="icon">💡</span>
+                    Random Advice
+                </div>
+                <div class="result">
+                    <div id="adviceText" class="advice-text">Need some advice?</div>
+                </div>
+                <button onclick="generateAdvice()">Generate Advice</button>
+            </div>
+
+            <!-- Random Emoji Generator -->
+            <div class="card">
+                <div class="card-title">
+                    <span class="icon">😊</span>
+                    Random Emoji
+                </div>
+                <div class="result">
+                    <span id="emojiResult" style="font-size: 4em;">🎲</span>
+                </div>
+                <button onclick="generateEmoji()">Generate Emoji</button>
+            </div>
+
+            <!-- Random Activity Generator -->
+            <div class="card">
+                <div class="card-title">
+                    <span class="icon">🎯</span>
+                    Random Activity
+                </div>
+                <div class="result">
+                    <div id="activityText" class="advice-text">What should you do today?</div>
+                </div>
+                <button onclick="generateActivity()">Generate Activity</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Random Number Generator
+        function generateNumber() {
+            const number = Math.floor(Math.random() * 100) + 1;
+            document.getElementById('numberResult').textContent = number;
+        }
+
+        // Random Color Generator
+        function generateColor() {
+            const randomColor = '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
+            const colorBox = document.getElementById('colorBox');
+            colorBox.style.background = randomColor;
+            colorBox.textContent = randomColor;
+        }
+
+        // Random Quote Generator
+        const quotes = [
+            { text: "The only way to do great work is to love what you do.", author: "Steve Jobs" },
+            { text: "Innovation distinguishes between a leader and a follower.", author: "Steve Jobs" },
+            { text: "Life is what happens when you're busy making other plans.", author: "John Lennon" },
+            { text: "The future belongs to those who believe in the beauty of their dreams.", author: "Eleanor Roosevelt" },
+            { text: "It is during our darkest moments that we must focus to see the light.", author: "Aristotle" },
+            { text: "The only impossible journey is the one you never begin.", author: "Tony Robbins" },
+            { text: "In the middle of difficulty lies opportunity.", author: "Albert Einstein" },
+            { text: "Success is not final, failure is not fatal: it is the courage to continue that counts.", author: "Winston Churchill" },
+            { text: "Believe you can and you're halfway there.", author: "Theodore Roosevelt" },
+            { text: "The best time to plant a tree was 20 years ago. The second best time is now.", author: "Chinese Proverb" }
+        ];
+
+        function generateQuote() {
+            const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+            document.getElementById('quoteText').textContent = `"${randomQuote.text}"`;
+            document.getElementById('quoteAuthor').textContent = `— ${randomQuote.author}`;
+        }
+
+        // Random Advice Generator
+        const adviceList = [
+            "Take a break and go for a walk outside.",
+            "Call a friend you haven't talked to in a while.",
+            "Try learning something new today.",
+            "Practice gratitude by listing three things you're thankful for.",
+            "Drink more water throughout the day.",
+            "Set one small goal and achieve it today.",
+            "Read a book for at least 15 minutes.",
+            "Do something kind for someone else.",
+            "Listen to your favorite music and dance.",
+            "Get at least 7-8 hours of sleep tonight.",
+            "Try a new recipe or cuisine.",
+            "Meditate for 10 minutes.",
+            "Organize one area of your living space.",
+            "Write down your thoughts in a journal.",
+            "Exercise for at least 30 minutes."
+        ];
+
+        function generateAdvice() {
+            const randomAdvice = adviceList[Math.floor(Math.random() * adviceList.length)];
+            document.getElementById('adviceText').textContent = randomAdvice;
+        }
+
+        // Random Emoji Generator
+        const emojis = ['😀', '😎', '🎉', '🚀', '⭐', '🌈', '🎨', '🎵', '🍕', '🌸', '🦋', '🎪', '🎭', '🎬', '📚', '🎮', '🏆', '💎', '🌟', '✨', '🔥', '💫', '🌺', '🍀', '🎯', '🎪', '🎨', '🎭', '🎬', '🎤'];
+
+        function generateEmoji() {
+            const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+            document.getElementById('emojiResult').textContent = randomEmoji;
+        }
+
+        // Random Activity Generator
+        const activities = [
+            "Learn to cook a new dish from a different culture",
+            "Start a creative project like drawing or writing",
+            "Go explore a new neighborhood or park in your city",
+            "Watch a highly-rated documentary",
+            "Call or video chat with a family member",
+            "Try a new form of exercise or yoga",
+            "Visit a local museum or art gallery",
+            "Start learning a new language with an app",
+            "Volunteer for a local charity or cause",
+            "Have a picnic in a nearby park",
+            "Try photography - capture interesting moments",
+            "Play a board game with friends or family",
+            "Start a small garden or care for houseplants",
+            "Attend a local community event or workshop",
+            "Write letters to people you appreciate"
+        ];
+
+        function generateActivity() {
+            const randomActivity = activities[Math.floor(Math.random() * activities.length)];
+            document.getElementById('activityText').textContent = randomActivity;
+        }
+    </script>
+</body>
+</html>
